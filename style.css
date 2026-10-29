@@ -1,0 +1,642 @@
+/* Early-2000s portal look in a blue and silver scheme: royal blue panels,
+   brushed silver frames and buttons, a gray backdrop, white text and a pale
+   yellow accent. The site box fills the window; only the page area scrolls.
+   Change the colors in :root and everything follows. */
+
+:root {
+  --blue: #1f2d9e;
+  --blue-dark: #131c6e;
+  --blue-deep: #0b1048;
+  --blue-light: #4a5fe0;
+  --silver: #cfd2d8;
+  --silver-light: #f3f4f7;
+  --silver-dark: #8c9099;
+  --gray: #6c7079;
+  --gray-dark: #3a3d44;
+  --ink: #ffffff;
+  --accent: #ffffff;
+  --radius: 0px; /* how round the boxes are; try 18px for rounded corners */
+}
+
+html {
+  background: var(--blue-dark);
+  cursor: url("images/cursor_arrow.png") 2 2, auto;
+}
+
+a,
+button,
+input[type="range"],
+.viewer img,
+.lightbox {
+  cursor: url("images/cursor_hand.png") 9 2, pointer;
+}
+
+body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  background: linear-gradient(var(--blue-light), var(--blue) 45%, var(--blue-dark));
+}
+
+a {
+  color: var(--accent);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* The whole site box fills the window */
+
+.site {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1100px;
+  gap: 14px;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+}
+
+/* Banner */
+
+.banner {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  border: 4px ridge var(--silver);
+  border-radius: var(--radius);
+  background: #000;
+  box-shadow: 0 0 0 1px var(--gray-dark), 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.banner img {
+  display: block;
+  width: 100%;
+  height: clamp(150px, 30vh, 320px);
+  object-fit: cover;
+}
+
+.banner h1 {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: clamp(2.2rem, min(9vw, 14vh), 6rem);
+  font-weight: normal;
+  letter-spacing: 4px;
+  white-space: nowrap;
+  color: var(--silver-light);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 22px rgba(190, 205, 255, 0.7);
+}
+
+/* The page area, with one page shown at a time */
+
+.layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 4px ridge var(--silver);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0 0 1px var(--gray-dark), 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.page {
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 8px 22px 12px;
+  overflow-y: auto; /* only a safety net on very small windows */
+  text-align: center;
+  scrollbar-color: var(--silver-dark) var(--gray-dark);
+}
+
+.view {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.view.active {
+  display: flex;
+}
+
+/* Contact: the email and the line under it sit in the middle of the box */
+
+#contact,
+#watch {
+  justify-content: center;
+}
+
+.view h2 {
+  flex: none;
+  margin: 6px 0 10px;
+  font-size: 34px;
+  font-weight: normal;
+  letter-spacing: 1px;
+  color: var(--silver-light);
+  text-shadow: 0 0 8px rgba(160, 175, 255, 0.8), 2px 2px 0 var(--blue-deep);
+}
+
+.view h3 {
+  margin: 10px 0 6px;
+  font-size: 22px;
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.view p {
+  flex: none;
+  margin: 0 0 12px;
+}
+
+/* Bottom navigation bar */
+
+.menu {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 8px 30px;
+  justify-content: center;
+  padding: 0 12px;
+  font-size: 22px;
+}
+
+.menu a {
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.menu a.current {
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.9), 0 0 14px rgba(190, 205, 255, 0.8);
+}
+
+/* Release cover takes the height that is left */
+
+.cover-link {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-height: 0;
+  margin-bottom: 8px;
+}
+
+.cover {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 3px ridge var(--silver);
+  border-radius: var(--radius);
+  transition: transform 0.3s;
+}
+
+.cover:hover {
+  transform: scale(1.03);
+}
+
+/* Names that open a player below: brushed silver buttons */
+
+.tabs {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.tabs button {
+  padding: 2px 14px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 20px;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+.tabs button:hover {
+  opacity: 1;
+}
+
+.tabs button[aria-expanded="true"] {
+  opacity: 1;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.9), 0 0 14px rgba(190, 205, 255, 0.8);
+}
+
+/* A player fills the height that is left under its buttons */
+
+.panel {
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panel:not([hidden]) {
+  display: flex;
+}
+
+.panel iframe,
+.video {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  border: 0;
+}
+
+.video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.panel iframe,
+.video {
+  border-radius: calc(var(--radius) * 0.7);
+}
+
+/* Gallery: one big photo and a row of small ones */
+
+.viewer {
+  flex: 1;
+  min-height: 0;
+}
+
+.viewer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: calc(var(--radius) * 0.6);
+}
+
+/* The small photos keep a fixed size; more photos than fit scroll sideways
+   under a slim, quiet scroll bar. */
+
+.thumbs {
+  display: flex;
+  flex: none;
+  gap: 10px;
+  justify-content: safe center; /* centered while they fit, scrollable when they do not */
+  margin-top: 10px;
+  padding: 6px 2px 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.45) transparent;
+}
+
+.thumbs::-webkit-scrollbar {
+  height: 5px;
+}
+
+.thumbs::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thumbs::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.thumbs button {
+  flex: 0 0 clamp(64px, 12vh, 110px);
+  min-width: 0;
+  padding: 3px;
+  border: 2px solid var(--silver-dark);
+  border-radius: calc(var(--radius) * 0.6);
+  background: var(--gray-dark);
+  transition: transform 0.2s;
+}
+
+.thumbs button:hover {
+  transform: translateY(-2px);
+}
+
+.thumbs button.current {
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+.thumbs img {
+  display: block;
+  border-radius: calc(var(--radius) * 0.4);
+  width: 100%;
+  height: clamp(44px, 9vh, 90px);
+  object-fit: cover;
+}
+
+/* Photo opened almost full screen */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 8, 36, 0.92);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  border: 3px ridge var(--silver);
+  border-radius: var(--radius);
+}
+
+.footer {
+  flex: none;
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink);
+  text-shadow: 1px 1px 0 var(--blue-deep);
+}
+
+/* Site box and music player side by side; the player is outside the box */
+
+.stage {
+  display: flex;
+  flex: 1;
+  gap: 12px;
+  justify-content: center;
+  min-height: 0;
+}
+
+.home-row {
+  display: flex;
+  flex: 1;
+  gap: 24px;
+  min-height: 0;
+}
+
+.ep {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.jukebox {
+  box-sizing: border-box;
+  flex: none;
+  width: 300px;
+  padding: 12px;
+  overflow: auto;
+  border: 4px ridge var(--silver);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 16px;
+}
+
+.jukebox .display {
+  padding: 4px 0 2px;
+}
+
+.jukebox .now {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.8em;
+  font-weight: bold;
+  line-height: 1.3;
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.jukebox .seek {
+  width: 100%;
+  margin: 8px 0 2px;
+  accent-color: var(--silver);
+}
+
+.jukebox .times {
+  display: flex;
+  justify-content: space-between;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  color: var(--silver);
+}
+
+.jukebox .buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.jukebox .buttons button {
+  width: 42px;
+  height: 42px;
+  border: 2px outset var(--silver);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--silver-light), var(--silver) 55%, var(--silver-dark));
+  color: var(--blue-deep);
+  font-size: 14px;
+}
+
+.jukebox .buttons button#jb-play {
+  width: 52px;
+  height: 52px;
+  font-size: 18px;
+}
+
+.jukebox .buttons button:active {
+  border-style: inset;
+}
+
+.tracks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tracks button {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 4px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+}
+
+.tracks button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tracks button.current {
+  border-color: var(--accent);
+  background: none;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.tracks .num {
+  display: inline-block;
+  width: 1.6em;
+  color: var(--silver);
+}
+
+/* Music symbols drifting across the background, behind the boxes */
+
+.notes {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.note {
+  position: absolute;
+  top: var(--y);
+  left: 0;
+  font-family: Arial, "Apple Symbols", "Noto Music", "Segoe UI Symbol", "Symbola", sans-serif;
+  font-size: var(--size);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.9), 0 0 16px rgba(190, 205, 255, 0.7);
+  animation: drift var(--time) linear forwards;
+  will-change: transform;
+}
+
+@keyframes drift {
+  from { transform: translateX(var(--from)); }
+  to { transform: translateX(var(--to)); }
+}
+
+.stage,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* The real SoundCloud player stays in the page but cannot be seen */
+
+.hidden-player {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100px;
+  height: 100px;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* On narrow screens the cover sits above the player instead of beside it */
+
+@media (max-width: 760px) {
+  .home-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ep {
+    flex: 0 1 40%;
+  }
+
+  .jukebox {
+    flex: 1;
+    width: auto;
+  }
+}
+
+/* Narrow screens */
+
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+
+  .menu {
+    gap: 6px 16px;
+    padding: 8px;
+    font-size: 18px;
+  }
+
+  .page {
+    padding: 8px 12px;
+  }
+
+  /* Phones: a shorter banner and a smaller cover leave room for the player */
+
+  .banner img {
+    height: clamp(100px, 17vh, 150px);
+  }
+
+  .ep {
+    flex: 0 1 26%;
+  }
+
+  .home-row {
+    gap: 8px;
+  }
+
+  .jukebox {
+    padding: 8px;
+  }
+
+  .jukebox .buttons {
+    margin: 8px 0;
+  }
+
+  .tracks button {
+    padding: 4px 8px;
+  }
+}
+
+/* The line under the music video: its title and who made it */
+
+.credit {
+  margin-top: 10px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* The TikTok video is landscape: it fills the width of the box at 16:9, and shrinks
+   to the box's height if the box is short */
+
+#panel-tiktok iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+}

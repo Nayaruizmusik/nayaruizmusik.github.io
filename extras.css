@@ -1,0 +1,161 @@
+/* Optional effects. Most of them only apply when extras.js has put their class on
+   the <html> element (fx-pagefade, fx-coversize, and so on), so switching one
+   off in extras.js turns its styling off too. To remove everything, delete the
+   extras.css and extras.js lines in index.html. */
+
+/* A still photo fills the whole screen, at the very back (images/background.webp).
+   The photo keeps its own colors. It is see-through at the top, where a pure blue
+   gradient (#0000ff fading to a darker pure blue) shows through behind it. */
+
+html.fx-background {
+  background: #00007f;
+}
+
+html.fx-background body {
+  background: linear-gradient(#0000ff, #00007f);
+}
+
+/* The photo is its own layer so its see-through level can be set: 0.9 = 10% more
+   transparent than the original, letting a little of the blue show through. */
+
+html.fx-background body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: url("images/background.webp") center / cover no-repeat;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Water droplets (images/droplets.png, turned 90 degrees clockwise) laid BEHIND the
+   black layer of the content box, so they only show faintly through it. Still, no
+   motion. The first layer below is the black one (on top), the second the droplets. */
+
+html.fx-droplets .layout {
+  background:
+    rgba(0, 0, 0, 0.75),
+    url("images/droplets.png") center / cover no-repeat;
+}
+
+/* Two small sparkles (images/flare-small.png): one on the banner's top-right corner,
+   moved a bit lower, and a smaller one on the content box's bottom-left corner,
+   moved a bit higher. Each is centered on its corner, so the boxes must not clip. */
+
+html.fx-flare .banner,
+html.fx-flare .layout {
+  position: relative;
+  overflow: visible;
+}
+
+/* Two class names on each rule, so they win over the banner's own "img" rule. */
+
+.flare.flare-top,
+.flare.flare-bottom {
+  position: absolute;
+  z-index: 3;
+  height: auto;
+  max-width: none;
+  margin: 0;
+  pointer-events: none;
+}
+
+.flare.flare-top {
+  top: -31px;   /* half its height + the 4px border, minus the 24px it is lowered */
+  right: -50px; /* half its width + the 4px border */
+  width: 92px;
+}
+
+.flare.flare-bottom {
+  bottom: -26px; /* half its height + the 4px border, minus the 18px it is raised */
+  left: -40px;   /* half its width + the 4px border */
+  width: 72px;
+}
+
+/* When the site fills the whole window (phones, tablets, small laptops) the sparkles
+   stay on the corners like on a computer, and the screen edge simply crops them. The
+   part past the edge is clipped away, so it cannot make the page wider than the
+   screen (which made phones show it shifted). The box around the site is stretched
+   out to the screen edges first, so the clipping happens exactly at the edge. */
+
+@media (max-width: 1200px) {
+  html.fx-flare .stage {
+    margin: 0 -10px;
+    padding: 0 10px;
+    overflow-x: clip;
+  }
+}
+
+/* Pages fade and slide in when you switch to them */
+
+html.fx-pagefade .view.active {
+  animation: view-in 0.45s ease-out;
+}
+
+@keyframes view-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* The Under cover is 10% smaller */
+
+html.fx-coversize .cover {
+  height: 90%;
+  align-self: center;
+}
+
+/* Gallery: the old photo fades out over the new one */
+
+.viewer {
+  position: relative;
+}
+
+.viewer .ghost {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+/* Player: small equalizer next to the song title */
+
+.nowrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.eq {
+  display: inline-flex;
+  flex: none;
+  gap: 3px;
+  align-items: flex-end;
+  height: 18px;
+}
+
+.eq i {
+  display: block;
+  width: 4px;
+  height: 3px;
+  background: #fff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+  animation: eq-bar 0.9s ease-in-out infinite;
+  animation-play-state: paused; /* still while the music is paused */
+}
+
+.eq i:nth-child(2) { animation-duration: 0.7s; animation-delay: -0.25s; }
+.eq i:nth-child(3) { animation-duration: 1.1s; animation-delay: -0.5s; }
+.eq i:nth-child(4) { animation-duration: 0.8s; animation-delay: -0.1s; }
+
+html.music-playing .eq i {
+  animation-play-state: running;
+}
+
+@keyframes eq-bar {
+  0%, 100% { height: 3px; }
+  50% { height: 18px; }
+}
+

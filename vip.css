@@ -1,0 +1,61 @@
+/* The VIP page: a password box, and under it (once unlocked) the content that was hidden.
+   To remove it, delete the VIP link and section in the page and the vip.css / vip.js lines. */
+
+#vip {
+  justify-content: center;
+}
+
+#vip .vip-lock,
+#vip .vip-content {
+  margin: auto 0;
+}
+
+#vip .vip-lock[hidden],
+#vip .vip-content[hidden] {
+  display: none;
+}
+
+.vip-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 12px;
+}
+
+.vip-form input {
+  width: min(260px, 60vw);
+  padding: 8px 12px;
+  border: 2px solid #f0f0f0;
+  border-radius: 14px;
+  outline: 0;
+  background: #000;
+  box-shadow: 0 0 0 2px #6b6b6b, inset 0 0 8px rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font: inherit;
+  text-align: center;
+}
+
+.vip-form input:focus-visible {
+  box-shadow: 0 0 0 2px #6b6b6b, 0 0 10px rgba(190, 205, 255, 0.8), inset 0 0 8px rgba(0, 0, 0, 0.9);
+}
+
+.vip-form button {
+  padding: 8px 18px;
+  border: 2px solid #fff;
+  border-radius: 16px;
+  background: linear-gradient(#fafafa, #d2d2d2 50%, #a4a4a4);
+  box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.3), 0 2px 5px rgba(0, 0, 0, 0.45);
+  color: #111;
+  font: inherit;
+  cursor: pointer;
+}
+
+.vip-form button:active {
+  transform: scale(0.96);
+}
+
+#vip .vip-message {
+  min-height: 1.3em;
+  color: #ffb3b3;
+}

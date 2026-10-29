@@ -1,0 +1,36 @@
+/* Click the title banner to pause its animation, click again to play it. A GIF cannot be
+   paused, so a still copy of the frame it was on is drawn over it (banner.js). To remove
+   this, delete the banner.css and banner.js lines in the page. */
+
+.banner {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.banner h1 {
+  pointer-events: none; /* clicks on the name go through to the banner */
+}
+
+.banner .banner-still {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.banner .banner-still[hidden] {
+  display: none;
+}
+
+.banner h1 {
+  z-index: 2; /* the name stays in front of the still picture */
+}
+
+.banner:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}

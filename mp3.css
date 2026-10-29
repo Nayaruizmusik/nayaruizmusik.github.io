@@ -1,0 +1,391 @@
+/* A little handheld mp3 player: silver body, a screen that shows a picture or GIF for
+   each song, a round blue play button, previous and next buttons, a volume slider.
+   Everything inside is sized in "cqw" (a percentage of the player's own width), so the
+   whole thing scales as one piece. To remove it, delete the mp3.css and mp3.js lines in
+   the page and put the old player markup back. */
+
+/* The old box around the player is not wanted any more */
+
+.jukebox.mp3-wrap {
+  container-type: inline-size;
+  flex: none;
+  width: min(340px, 100%);
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  align-self: center;
+}
+
+.mp3 {
+  position: relative;
+  display: grid;
+  grid-template-columns: 11cqw minmax(0, 1fr) 11cqw;
+  gap: 2cqw 2.2cqw;
+  padding: 4.4cqw 3.2cqw 4.6cqw;
+  border-radius: 11cqw 11cqw 14cqw 14cqw;
+  background: linear-gradient(150deg, #fbfbfb 0%, #cfcfcf 28%, #8e8e8e 56%, #d6d6d6 80%, #f2f2f2 100%);
+  box-shadow:
+    inset 0 0 0 0.6cqw rgba(255, 255, 255, 0.85),
+    inset 0 -1.4cqw 2.4cqw rgba(0, 0, 0, 0.4),
+    0 2.4cqw 5cqw rgba(0, 0, 0, 0.7),
+    0 0 6cqw rgba(255, 255, 255, 0.12);
+  color: #111;
+  font-size: 3.4cqw;
+  line-height: 1.3;
+  text-align: left;
+}
+
+/* Little side buttons and rivets on each side of the screen */
+
+.mp3-side {
+  display: flex;
+  flex-direction: column;
+  gap: 2.6cqw;
+  align-items: center;
+  justify-content: center;
+}
+
+.mp3-small {
+  display: grid;
+  place-items: center;
+  width: 8.8cqw;
+  height: 8.8cqw;
+  padding: 0;
+  border: 0.5cqw solid #f4f4f4;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #fff, #c4c4c4 55%, #7a7a7a);
+  box-shadow: inset 0 -0.8cqw 1.2cqw rgba(0, 0, 0, 0.35), 0 0.5cqw 1cqw rgba(0, 0, 0, 0.45);
+  color: #1c1c1c;
+  font-size: 4cqw;
+  cursor: pointer;
+}
+
+.mp3-small:active {
+  transform: scale(0.94);
+}
+
+.mp3-small.on {
+  background: radial-gradient(circle at 35% 28%, #a8b6ff, #0000ff 60%, #00005c);
+  color: #fff;
+}
+
+.rivet {
+  display: block;
+  width: 3.6cqw;
+  height: 3.6cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #a0a0a0 60%, #555);
+  box-shadow: inset 0 0 0 0.3cqw rgba(0, 0, 0, 0.25);
+}
+
+/* The screen */
+
+.mp3-screen {
+  position: relative;
+  aspect-ratio: 1.22;
+  overflow: hidden;
+  border-radius: 6.5cqw;
+  background: #000;
+  box-shadow:
+    0 0 0 0.7cqw #6b6b6b,
+    0 0 0 1.4cqw #f0f0f0,
+    inset 0 0 3cqw rgba(0, 0, 0, 0.9);
+}
+
+.mp3-visuals {
+  position: absolute;
+  inset: 0;
+  filter: brightness(0.55) saturate(0.7);
+  transition: filter 0.9s ease;
+}
+
+html.music-playing .mp3-visuals {
+  filter: none;
+}
+
+.mp3-visuals .vis {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+
+.mp3-visuals .vis.on {
+  opacity: 1;
+}
+
+/* A still copy of the GIF's current frame covers it unless the music is playing */
+
+.mp3-freeze {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+html.music-playing .mp3-freeze {
+  opacity: 0;
+}
+
+/* Glass: a bright reflection in the corner and fine scan lines */
+
+.mp3-glass {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 36%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 3px);
+}
+
+/* Time, title and length along the bottom of the screen */
+
+/* "jukebox" in front so these win over the older .jukebox .display rule in style.css */
+.jukebox .mp3-strip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  gap: 2cqw;
+  align-items: center;
+  padding: 1.2cqw 8cqw; /* wide enough that the screen's rounded corners never cut the time */
+  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.78));
+  color: #fff;
+  font-size: 3.1cqw;
+  line-height: 1.5;
+}
+
+.mp3-strip .nowrow {
+  flex: 1;
+  min-width: 0;
+  gap: 1.6cqw;
+  justify-content: center;
+}
+
+.mp3-strip .now {
+  min-height: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 3.2cqw;
+  font-weight: 700;
+  text-shadow: none;
+  color: #fff;
+}
+
+.mp3-strip .eq {
+  height: 3cqw;
+  transform: scale(0.55);
+  transform-origin: left center;
+  margin-right: -2cqw;
+}
+
+.mp3-strip > span {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The song list, shown over the screen from the list button */
+
+.mp3-list {
+  position: absolute;
+  inset: 0 0 7.6cqw 0;
+  z-index: 3;
+  margin: 0;
+  padding: 2cqw;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.84);
+  list-style: none;
+}
+
+.mp3-list[hidden] {
+  display: none;
+}
+
+.mp3-list button {
+  padding: 1.2cqw 2cqw;
+  font-size: 3.7cqw;
+}
+
+/* Progress line */
+
+.mp3-seek {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 4.4cqw;
+  margin: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mp3-seek::-webkit-slider-runnable-track {
+  height: 1.7cqw;
+  border-radius: 1cqw;
+  background: linear-gradient(90deg, #0000ff var(--p, 0%), #8f8f8f var(--p, 0%));
+  box-shadow: inset 0 0.3cqw 0.6cqw rgba(0, 0, 0, 0.55), 0 0.3cqw 0 rgba(255, 255, 255, 0.7);
+}
+
+.mp3-seek::-moz-range-track {
+  height: 1.7cqw;
+  border-radius: 1cqw;
+  background: linear-gradient(90deg, #0000ff var(--p, 0%), #8f8f8f var(--p, 0%));
+}
+
+.mp3-seek::-webkit-slider-thumb {
+  width: 4.4cqw;
+  height: 4.4cqw;
+  margin-top: -1.35cqw;
+  border: 0.4cqw solid #fff;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #fff, #bdbdbd 55%, #555);
+  box-shadow: 0 0.4cqw 0.8cqw rgba(0, 0, 0, 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mp3-seek::-moz-range-thumb {
+  width: 3.8cqw;
+  height: 3.8cqw;
+  border: 0.4cqw solid #fff;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #fff, #bdbdbd 55%, #555);
+}
+
+/* Big round play button, previous / next pills, volume */
+
+.mp3-controls {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 3cqw;
+  align-items: center;
+}
+
+.mp3-ring {
+  position: relative;
+  flex: none;
+  width: 27cqw;
+  height: 27cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #fff, #cbcbcb 55%, #8a8a8a);
+  box-shadow:
+    inset 0 0 0 0.5cqw #fff,
+    inset 0 -1cqw 1.8cqw rgba(0, 0, 0, 0.4),
+    0 0.8cqw 1.6cqw rgba(0, 0, 0, 0.5);
+}
+
+.mp3-play {
+  position: absolute;
+  inset: 4.6cqw;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0.6cqw solid #f2f2f2;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #fff, #c4c4c4 55%, #7a7a7a);
+  box-shadow: inset 0 -1cqw 1.6cqw rgba(0, 0, 0, 0.35), 0 0.6cqw 1.2cqw rgba(0, 0, 0, 0.45);
+  color: #1c1c1c;
+  font-size: 5.4cqw;
+  cursor: pointer;
+}
+
+.mp3-play:active {
+  transform: scale(0.95);
+}
+
+.mp3-pill {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 13.5cqw;
+  height: 7.2cqw;
+  padding: 0;
+  border: 0.5cqw solid #fff;
+  border-radius: 3.6cqw;
+  background: linear-gradient(#fafafa, #d2d2d2 50%, #a4a4a4);
+  box-shadow: inset 0 -0.6cqw 1cqw rgba(0, 0, 0, 0.3), 0 0.5cqw 1cqw rgba(0, 0, 0, 0.45);
+  color: #111;
+  font-size: 3cqw;
+  cursor: pointer;
+}
+
+.mp3-pill:active {
+  transform: scale(0.95);
+}
+
+.mp3-vol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 1.6cqw;
+  align-items: center;
+  height: 7.2cqw;
+  padding: 0 2.6cqw;
+  border-radius: 3.6cqw;
+  background: linear-gradient(#cfcfcf, #b4b4b4);
+  box-shadow: inset 0 0.5cqw 1cqw rgba(0, 0, 0, 0.4), 0 0.4cqw 0 rgba(255, 255, 255, 0.7);
+  font-size: 3.4cqw;
+}
+
+.mp3-vol input {
+  flex: 1;
+  min-width: 0;
+  height: 4cqw;
+  margin: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mp3-vol input::-webkit-slider-runnable-track { height: 0.9cqw; border-radius: 1cqw; background: #6a6a6a; }
+.mp3-vol input::-moz-range-track { height: 0.9cqw; border-radius: 1cqw; background: #6a6a6a; }
+
+.mp3-vol input::-webkit-slider-thumb {
+  width: 3.6cqw;
+  height: 3.6cqw;
+  margin-top: -1.35cqw;
+  border: 0.3cqw solid #fff;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #fff, #b5b5b5 55%, #444);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mp3-vol input::-moz-range-thumb {
+  width: 3.2cqw;
+  height: 3.2cqw;
+  border: 0.3cqw solid #fff;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #fff, #b5b5b5 55%, #444);
+}
+
+/* Wide screens: the cover and the player sit side by side, centered together in the
+   box, with the same space on the left of the cover and the right of the player. */
+
+@media (min-width: 761px) {
+  .home-row {
+    justify-content: center;
+    gap: clamp(28px, 7vw, 110px);
+  }
+
+  .ep {
+    flex: 0 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp3-freeze {
+    opacity: 1 !important; /* people who asked for less motion always get the still frame */
+  }
+}

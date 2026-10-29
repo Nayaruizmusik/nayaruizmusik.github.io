@@ -1,0 +1,44 @@
+/* The red arrow that points at the mp3 player's play button. It fades in when the site
+   loads and fades away for good the first time the music is started. To remove it, delete
+   the arrow.css and arrow.js lines in the page. */
+
+.play-arrow {
+  position: absolute;
+  z-index: 5;
+  width: 84px;
+  height: auto;
+  max-width: none;
+  image-rendering: pixelated; /* the small picture is shown in big square pixels, not smoothed */
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 1.2s ease;
+}
+
+/* Added once, a moment after the site loads (arrow.js). A transition, not an animation,
+   so coming back to Home from another page does not play the fade-in again. */
+
+.play-arrow.shown {
+  opacity: 1;
+}
+
+.play-arrow.gone {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+/* On phones there is no room beside the player */
+
+@media (max-width: 760px) {
+  .play-arrow { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .play-arrow { transition-duration: 0.01s; }
+}
+
+/* The arrow is placed in relation to the player column */
+
+.mp3-col {
+  position: relative;
+}

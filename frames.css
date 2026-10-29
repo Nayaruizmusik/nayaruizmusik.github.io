@@ -1,0 +1,222 @@
+/* A silver frame, like the mp3 player's body, around the Spotify, SoundCloud and YouTube
+   players and the big gallery photo. The player itself sits in a dark recessed bezel with
+   a thin light ring, like the player's screen. To remove the frames, delete the frames.css
+   line in the page. */
+
+#panel-spotify,
+#panel-soundcloud,
+#panel-bandcamp,
+#panel-youtube,
+.viewer {
+  --bezel: 14px;
+  box-sizing: border-box;
+  padding: var(--bezel);
+  border-radius: 28px;
+  background: linear-gradient(150deg, #fbfbfb 0%, #cfcfcf 28%, #8e8e8e 56%, #d6d6d6 80%, #f2f2f2 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.85),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+    0 6px 14px rgba(0, 0, 0, 0.7),
+    0 0 18px rgba(255, 255, 255, 0.12);
+}
+
+#panel-spotify iframe,
+#panel-soundcloud iframe,
+#panel-bandcamp iframe,
+#panel-youtube .video,
+.viewer img {
+  border-radius: 14px;
+  background: #000;
+  box-shadow:
+    0 0 0 2px #6b6b6b,
+    0 0 0 4px #f0f0f0;
+}
+
+/* The dark inner edge is drawn over the player (an iframe or photo hides its own inset
+   shadow), so the video sits behind the outline */
+
+#panel-spotify,
+#panel-soundcloud,
+#panel-bandcamp,
+#panel-youtube,
+.viewer {
+  position: relative;
+}
+
+#panel-spotify::after,
+#panel-soundcloud::after,
+#panel-bandcamp::after,
+#panel-youtube::after,
+.viewer::after {
+  content: "";
+  position: absolute;
+  inset: var(--bezel);
+  z-index: 3;
+  border-radius: 14px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+/* The gallery's fading ghost photo has to sit inside the frame too */
+
+.viewer .ghost {
+  top: var(--bezel);
+  left: var(--bezel);
+  width: calc(100% - 2 * var(--bezel));
+  height: calc(100% - 2 * var(--bezel));
+}
+
+@media (max-width: 760px) {
+  #panel-spotify,
+  #panel-soundcloud,
+#panel-bandcamp,
+  #panel-youtube,
+  .viewer {
+    --bezel: 10px;
+    border-radius: 22px;
+  }
+}
+
+/* The YouTube player is inside a box: that box clips it, so the player's square corners
+   never stick out past the rounded outline */
+
+#panel-youtube .video {
+  overflow: hidden;
+}
+
+#panel-youtube .video iframe {
+  border-radius: inherit;
+}
+
+/* The credit line under the video sits halfway between the frame and the bottom edge of
+   the box */
+
+#watch .credit {
+  flex: none;
+  margin: 0;
+  padding: 13px 0 12px;
+}
+
+/* Contact page: the mp3 pictures scattered small around the text, never over it (they stay
+   in the bands above and below, and sit behind the text anyway) */
+
+#contact {
+  position: relative;
+}
+
+#contact .scatter {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none; /* the box lets clicks through; only the pictures catch them */
+}
+
+#contact .scatter img {
+  position: absolute;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px #6b6b6b, 0 0 0 2px #f0f0f0, 0 3px 8px rgba(0, 0, 0, 0.6);
+  opacity: 0.9;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#contact .scatter img.dragging {
+  cursor: grabbing;
+  opacity: 1;
+}
+
+/* The pole, the flute and the "still here?" text are cut-outs: no frame, no rounded corners,
+   no fading */
+
+#contact .scatter img.pole,
+#contact .scatter img.cutout {
+  border-radius: 0;
+  box-shadow: none;
+  opacity: 1;
+}
+
+#contact p {
+  position: relative;
+  z-index: 1;
+  pointer-events: none; /* each line spans the whole box and would catch clicks meant for the pictures behind it */
+}
+
+#contact p a {
+  pointer-events: auto; /* the email link still works */
+}
+
+/* Phones: the box is narrow, so the pictures are held to a share of its width and the second
+   one moves down so none of them lie on another or stick out */
+
+@media (max-width: 760px) {
+  #contact .scatter img {
+    max-width: 26%;
+  }
+
+  /* where each picture sits on a phone: left and top in percent of the box */
+  #contact .scatter img:nth-child(2) { top: 19% !important; left: 38% !important; }
+  #contact .scatter img:nth-child(3) { top: 5% !important;  left: 52% !important; }
+  #contact .scatter img:nth-child(4) { top: 66% !important; left: 3% !important; }
+  #contact .scatter img:nth-child(5) { top: 78% !important; left: 30% !important; }
+  #contact .scatter img:nth-child(6) { top: 7% !important;  left: 87% !important; width: 27px !important; } /* the pole is shorter so it stays above the text */
+  #contact .scatter img:nth-child(7) { top: 70% !important; left: 58% !important; }
+  #contact .scatter img:nth-child(8) { top: 23% !important; left: 3% !important; }
+}
+
+/* Bandcamp's player only stretches to about 700 px wide, so its frame is that wide too and
+   sits in the middle of the box rather than leaving an empty dark strip beside it */
+
+#panel-bandcamp {
+  width: 100%;
+  max-width: 720px;
+  align-self: center;
+}
+
+/* Gallery: the photographer's credit under the big photo, and over the full-screen photo */
+
+/* "view" in front, so this wins over the page's general rule for paragraphs (which had put
+   the credit right against the frame). The credit sits halfway between the photo's frame and
+   the small photos. */
+
+.view .photo-credit {
+  flex: none;
+  margin: 18px 0 0;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+.photo-credit a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.photo-credit[hidden] {
+  display: none;
+}
+
+.lightbox-credit {
+  position: absolute;
+  right: 0;
+  bottom: 14px;
+  left: 0;
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 0 1px 4px #000, 0 0 10px #000;
+  pointer-events: none;
+}
+
+.lightbox-credit[hidden] {
+  display: none;
+}
+
+.lightbox img {
+  max-height: 86vh; /* leaves room for the credit under the photo */
+}

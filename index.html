@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Naya Ruiz</title>
+  <meta name="description" content="Naya Ruiz, Paris based Danish singer and producer.">
+  <!-- The card shown when the link is shared (messages, Instagram, WhatsApp...). The picture is
+       images/preview.jpg. Apps want its full web address: once the site is online, change
+       images/preview.jpg below to the site's address followed by /images/preview.jpg
+       (for example https://yourname.github.io/yoursite/images/preview.jpg). -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Naya Ruiz">
+  <meta property="og:description" content="Paris based Danish singer and producer.">
+  <meta property="og:image" content="images/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="629">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Naya Ruiz">
+  <meta name="twitter:description" content="Paris based Danish singer and producer.">
+  <meta name="twitter:image" content="images/preview.jpg">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <!-- Optional effects: delete this line and the extras.js line at the bottom to remove them all -->
+  <link rel="stylesheet" href="extras.css">
+  <!-- The mp3 player look (delete this line and the mp3.js line to remove it) -->
+  <link rel="stylesheet" href="mp3.css">
+  <!-- The little keyboard under the player (delete this line and the synth.js line to remove it) -->
+  <link rel="stylesheet" href="synth.css">
+  <link rel="stylesheet" href="frames.css">
+  <link rel="stylesheet" href="arrow.css">
+  <link rel="stylesheet" href="banner.css">
+  <link rel="stylesheet" href="vip.css">
+  <link rel="stylesheet" href="mailerlite.css">
+</head>
+<body>
+
+<!-- Music symbols drifting across the background -->
+<div class="notes" id="notes" aria-hidden="true"></div>
+
+<div class="stage">
+
+<div class="site">
+
+  <div class="banner">
+    <img src="images/NAYARUIZ_gif3_medium.gif" alt="">
+    <h1>Naya Ruiz</h1>
+  </div>
+
+  <div class="layout">
+
+    <main class="page">
+
+      <section class="view active" id="home">
+        <div class="home-row">
+          <!-- New EP: the cover opens the DistroKid page -->
+          <div class="ep">
+            <a class="cover-link" href="https://distrokid.com/hyperfollow/nayaruiz/larm" target="_blank" rel="noopener">
+              <img class="cover" src="https://i1.sndcdn.com/artworks-pIELEJ5d5yNDF7L0-ubO1Bg-t500x500.png" alt="Under, cover art. Click to listen.">
+            </a>
+          </div>
+
+          <!-- The mp3 player with the little keyboard under it (see mp3.js and synth.js) -->
+          <div class="mp3-col">
+          <aside class="jukebox mp3-wrap" aria-label="Music player">
+            <div class="mp3">
+              <div class="mp3-side">
+                <button type="button" class="mp3-small" id="mp3-list-btn" aria-label="Show the song list">&#9776;</button>
+                <i class="rivet"></i><i class="rivet"></i>
+              </div>
+
+              <div class="mp3-screen">
+                <div class="mp3-visuals" id="jb-visuals"></div>
+                <div class="mp3-glass"></div>
+                <ol class="tracks mp3-list" id="jb-tracks" hidden></ol>
+                <div class="mp3-strip display">
+                  <span id="jb-cur">0:00</span>
+                  <div class="now" id="jb-now">loading&hellip;</div>
+                  <span id="jb-dur">0:00</span>
+                </div>
+              </div>
+
+              <div class="mp3-side">
+                <button type="button" class="mp3-small" id="mp3-mute" aria-label="Mute">&#9835;</button>
+                <i class="rivet"></i><i class="rivet"></i>
+              </div>
+
+              <input class="seek mp3-seek" id="jb-seek" type="range" min="0" max="1000" value="0" aria-label="Position in the song">
+
+              <div class="mp3-controls">
+                <div class="mp3-ring">
+                  <button type="button" class="mp3-play" id="jb-play" aria-label="Play">&#9654;</button>
+                </div>
+                <button type="button" class="mp3-pill" id="jb-prev" aria-label="Previous song">&#9664;&#9664;</button>
+                <button type="button" class="mp3-pill" id="jb-next" aria-label="Next song">&#9654;&#9654;</button>
+                <label class="mp3-vol">
+                  <span id="mp3-vol-icon" aria-hidden="true">&#9835;</span>
+                  <input id="jb-vol" type="range" min="0" max="100" value="80" aria-label="Volume">
+                </label>
+              </div>
+            </div>
+          </aside>
+
+          <!-- The little keyboard (built by synth.js). It plays the files in the sounds folder. -->
+          <div class="synth" id="synth" aria-label="Keyboard"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="music">
+        <div class="tabs">
+          <button type="button" data-target="panel-spotify" aria-expanded="false">Spotify</button>
+          <button type="button" data-target="panel-soundcloud" aria-expanded="false">SoundCloud</button>
+          <button type="button" data-target="panel-bandcamp" aria-expanded="false">Bandcamp</button>
+          <button type="button" data-target="panel-youtube" aria-expanded="false">YouTube</button>
+        </div>
+
+        <div class="panel" id="panel-spotify" hidden>
+          <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/artist/2tUIeBHKFs294iJG7GF1RH?utm_source=generator&theme=0&si=cf40f0a49cb34036" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe>
+        </div>
+
+        <div class="panel" id="panel-soundcloud" hidden>
+          <iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" loading="lazy" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/ruizgadegaardnaya&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=false" title="SoundCloud profile"></iframe>
+        </div>
+
+        <div class="panel" id="panel-bandcamp" hidden>
+          <!-- The Bandcamp album (the player code Bandcamp gave). The page makes it fill the box,
+               so the width and height Bandcamp wrote are not used. To use another album, paste
+               its embed code here instead. -->
+          <iframe style="border:0" src="https://bandcamp.com/EmbeddedPlayer/album=785129363/size=large/bgcol=333333/linkcol=0f91ff/artwork=small/transparent=true/" seamless title="Under de Naya Ruiz on Bandcamp"><a href="https://nayaruiz.bandcamp.com/album/under">Under de Naya Ruiz</a></iframe>
+        </div>
+
+        <div class="panel" id="panel-youtube" hidden>
+          <!-- The YouTube video (the player code YouTube gave). To use another video, paste its
+               embed code in place of the iframe. -->
+          <div class="video">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/hzHK-jUt9H4?si=x-ddl5UF7iXR22tR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="watch">
+        <p>Coming soon...</p>
+        <!-- When the music video is ready, put this back in place of the line above (replace
+             VIDEO_ID with the id from the link youtube.com/watch?v=VIDEO_ID, and fill in the
+             title and the names):
+        <div class="panel" id="panel-youtube">
+          <div class="video">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Music video" loading="lazy" allowfullscreen></iframe>
+          </div>
+        </div>
+        <p class="credit">&ldquo;VIDEO TITLE&rdquo;, a music video by ARTIST NAMES.</p>
+        -->
+      </section>
+
+      <section class="view" id="socials">
+        <div class="tabs">
+          <button type="button" data-target="panel-instagram" aria-expanded="false">Instagram</button>
+          <button type="button" data-target="panel-tiktok" aria-expanded="false">TikTok</button>
+        </div>
+
+        <div class="panel" id="panel-instagram" hidden>
+          <iframe src="https://www.instagram.com/nayaruiz/embed" width="100%" height="600" frameborder="0" scrolling="yes" style="overflow:auto" allowtransparency="true" loading="lazy" title="Instagram"></iframe>
+          <p><a href="https://www.instagram.com/nayaruiz/" target="_blank" rel="noopener">@nayaruiz on Instagram</a></p>
+        </div>
+
+        <div class="panel" id="panel-tiktok" hidden>
+          <!-- The TikTok video (the player code TikTok gave). To use another video, paste its
+               embed code here instead. -->
+          <iframe height="360" width="640" src="https://www.tiktok.com/player/v1/7663884299279617302?embed_from=webapp_share&music_info=1&description=1&autoplay=1&muted=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share" title="I loooove this song #cover" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </section>
+
+      <section class="view" id="photos">
+        <!-- One big photo, a row of small ones under it. Click a small one to show it big,
+             click the big one to open it full screen. To add a photo, add one more button. -->
+        <!-- The photos here are smaller copies made for the web (images/web). The originals
+             are still in the images folder. data-photo is the bigger copy shown above. -->
+        <div class="viewer">
+          <img id="viewer-img" src="images/web/photo-1.jpg" alt="Naya Ruiz">
+        </div>
+        <!-- The credit for the photo on show, written from the data-credit of its small photo
+             below (the whole line as it should read). If it also has a data-credit-link, the
+             credit is a link to that address. Nothing shows while data-credit is empty. -->
+        <p class="photo-credit" id="photo-credit" hidden></p>
+        <div class="thumbs" id="thumbs">
+          <button type="button" class="current" aria-label="Photo 1" data-credit="Stills from upcoming music video" data-photo="images/web/photo-1.jpg"><img src="images/web/thumb-1.jpg" alt="" loading="lazy"></button>
+          <button type="button" aria-label="Photo 2" data-credit="Stills from upcoming music video" data-photo="images/web/photo-2.jpg"><img src="images/web/thumb-2.jpg" alt="" loading="lazy"></button>
+          <button type="button" aria-label="Photo 3" data-credit="Stills from upcoming music video" data-photo="images/web/photo-3.jpg"><img src="images/web/thumb-3.jpg" alt="" loading="lazy"></button>
+          <button type="button" aria-label="Photo 4" data-credit="Stills from upcoming music video" data-photo="images/web/photo-4.jpg"><img src="images/web/thumb-4.jpg" alt="" loading="lazy"></button>
+          <button type="button" aria-label="Photo 5" data-credit="Stills from upcoming music video" data-photo="images/web/photo-5.jpg"><img src="images/web/thumb-5.jpg" alt="" loading="lazy"></button>
+          <button type="button" aria-label="Photo 6" data-credit="Photo: Signe Hasholt Henriksen" data-credit-link="https://www.instagram.com/signehhenriksen/" data-photo="images/web/photo-6.jpg"><img src="images/web/thumb-6.jpg" alt="" loading="lazy"></button>
+          <button type="button" aria-label="Photo 7" data-credit="Photo: Signe Hasholt Henriksen" data-credit-link="https://www.instagram.com/signehhenriksen/" data-photo="images/web/photo-7.jpg"><img src="images/web/thumb-7.jpg" alt="" loading="lazy"></button>
+        </div>
+      </section>
+
+      <section class="view" id="contact">
+        <!-- The player's pictures, scattered small around the text (positions and sizes are in
+             the style="" of each one: left / top in percent of the box, width in px). -->
+        <div class="scatter" aria-hidden="true">
+          <img src="images/screen-5.jpg" alt="" style="left:7%; top:6%; width:140px">
+          <img src="images/screen-sick.png" alt="" style="left:33%; top:15%; width:88px">
+          <img src="images/screen-larm.webp" alt="" style="left:68%; top:5%; width:124px">
+          <img src="images/screen-9.jpg" alt="" style="left:12%; top:67%; width:80px">
+          <img src="images/screen-silence.png" alt="" style="left:58%; top:66%; width:164px">
+          <img class="pole" src="images/pole.png" alt="" style="left:91%; top:7%; width:47px">
+          <img class="cutout" src="images/flute.png" alt="" style="left:74%; top:36%; width:151px">
+          <img class="cutout" src="images/still-here.png" alt="" style="left:3%; top:40%; width:129px">
+        </div>
+        <p><a href="mailto:nayaruizmusik@gmail.com">nayaruizmusik@gmail.com</a></p>
+        <p>Paris based Danish singer and producer</p>
+      </section>
+
+      <section class="view" id="vip" data-password="ilovemusik">
+        <!-- The VIP page, just for fun: the password is data-password above (capital letters
+             don't matter), and what opens when it is typed is the vip-content box below. Write
+             anything in it: text, links, or embed codes. It is not secret: anyone who looks at
+             the page's code can read it. -->
+        <div class="vip-lock">
+          <p>This page is for the mailing list.</p>
+
+          <!-- The MailerLite sign-up form (the code MailerLite gave, without its own styling:
+               the look is in mailerlite.css, and its script is loaded by vip.js the first time
+               this page is opened). Signing up adds the person to the VIP group, and the
+               welcome email set up in MailerLite sends them the password. -->
+          <div id="mlb2-47740908" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-47740908">
+            <div class="ml-form-align-center ">
+              <div class="ml-form-embedWrapper embedForm">
+                <div class="ml-form-embedBody ml-form-embedBodyHorizontal row-form">
+                  <div class="ml-form-embedContent">
+                    <p>Get the VIP password and access to exclusive music and content.</p>
+                  </div>
+                  <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2750913/forms/202600946731058298/subscribe" data-code="" method="post" target="_blank">
+                    <div class="ml-form-formContent horozintalForm">
+                      <div class="ml-form-horizontalRow">
+                        <div class="ml-input-horizontal">
+                          <div style="width: 100%;" class="horizontal-fields">
+                            <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                              <input type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="Email" aria-label="Email" autocomplete="email">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ml-button-horizontal primary ">
+                          <button type="submit" class="primary">Join</button>
+                          <button disabled="disabled" style="display: none;" type="button" class="loading">
+                            <div class="ml-form-embedSubmitLoad"></div>
+                            <span class="sr-only">Loading...</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="ml-submit" value="1">
+                    <div class="ml-mobileButton-horizontal">
+                      <button type="submit" class="primary">Join</button>
+                      <button disabled="disabled" style="display: none;" type="button" class="loading">
+                        <div class="ml-form-embedSubmitLoad"></div>
+                        <span class="sr-only">Loading...</span>
+                      </button>
+                    </div>
+                    <input type="hidden" name="anticsrf" value="true">
+                  </form>
+                </div>
+                <div class="ml-form-successBody row-success" style="display: none">
+                  <div class="ml-form-successContent">
+                    <h4>Thank you!</h4>
+                    <p>Check your inbox: the VIP password is on its way.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="vip-have">Already have the password?</p>
+          <form class="vip-form" autocomplete="off">
+            <input type="password" name="vip" placeholder="Password" aria-label="VIP password" autocomplete="off">
+            <button type="submit">Unlock</button>
+          </form>
+          <p class="vip-message" role="status"></p>
+        </div>
+        <div class="vip-content" hidden>
+          <p>Welcome to the VIP page.</p>
+          <p>Exclusive music and content are coming soon...</p>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Navigation bar at the bottom: each name shows its page in the area above -->
+  <nav class="menu">
+    <a href="#home" class="current">Home</a>
+    <a href="#music">Music</a>
+    <a href="#watch">Video</a>
+    <a href="#socials">Socials</a>
+    <a href="#photos">Gallery</a>
+    <a href="#contact">Contact</a>
+    <a href="#vip">VIP</a>
+  </nav>
+
+</div>
+
+</div>
+
+<!-- The real SoundCloud player, hidden: the buttons on the right control it. -->
+<iframe id="sc-hidden" class="hidden-player" allow="autoplay" title="SoundCloud player"
+  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/ruizgadegaardnaya&auto_play=false&visual=false&show_comments=false"></iframe>
+
+<p class="footer">&copy; Naya Ruiz &middot; Website by <a href="https://www.instagram.com/goya.roche/" target="_blank" rel="noopener">Goya Roche</a></p>
+
+<div class="lightbox" id="lightbox" hidden>
+  <img alt="">
+  <p class="lightbox-credit" id="lightbox-credit" hidden></p>
+</div>
+
+<script>
+  // One music symbol at a time drifts across the background, left to right or
+  // right to left, all at about the same speed.
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var layer = document.getElementById('notes');
+    var symbols = ['♩', '♪', '♫', '♬', '♭', '♮', '♯',
+                   '𝄞', '𝄡', '𝄢', '𝄪', '𝄫',
+                   '𝄇', '𝄐'];
+    var last = -1;
+
+    function drift() {
+      var i;
+      do { i = Math.floor(Math.random() * symbols.length); } while (i === last);
+      last = i;
+      var note = document.createElement('span');
+      note.className = 'note';
+      note.textContent = symbols[i];
+      var leftToRight = Math.random() < 0.5;
+      note.style.setProperty('--from', leftToRight ? '-12vw' : '112vw');
+      note.style.setProperty('--to', leftToRight ? '112vw' : '-12vw');
+      note.style.setProperty('--y', (4 + Math.random() * 88) + 'vh');
+      note.style.setProperty('--size', '35px'); // same size for every symbol
+      note.style.setProperty('--time', ((excited() ? 11 : 25) + Math.random() * (excited() ? 4 : 7.5)) + 's');
+      note.addEventListener('animationend', function () { note.remove(); });
+      layer.appendChild(note);
+    }
+
+    // With the "symbolsReact" extra on (see extras.js), symbols come fast while the
+    // music plays and slowly when it is paused. Without it this is always false.
+    function excited() {
+      var c = document.documentElement.classList;
+      return c.contains('fx-symbolsreact') && c.contains('music-playing');
+    }
+
+    function loop() {
+      drift();
+      setTimeout(loop, excited() ? 2400 : 5333); // 1.5 times the previous amount
+    }
+    loop();
+
+    // Symbols that are already crossing the screen speed up when the music starts, and
+    // slow down again when it pauses, so every symbol moves at the same speed. A
+    // symbol's crossing time was picked when it appeared (--time); changing its
+    // playback rate makes it cross in the typical time for the current mood instead.
+    function matchSpeed() {
+      if (!document.documentElement.classList.contains('fx-symbolsreact')) return;
+      var target = excited() ? 13 : 29; // seconds to cross: the middle of 11-15 and 25-32.5
+      layer.querySelectorAll('.note').forEach(function (note) {
+        if (typeof note.getAnimations !== 'function') return;
+        var own = parseFloat(note.style.getPropertyValue('--time'));
+        note.getAnimations().forEach(function (animation) { animation.playbackRate = own / target; });
+      });
+    }
+    document.addEventListener('music-play', matchSpeed);
+    document.addEventListener('music-pause', matchSpeed);
+  })();
+
+  // Small interface sounds: a soft tick, made by the browser, when the mouse moves onto
+  // something clickable, and the sound file images/click.mp3 when something clickable is
+  // clicked (not the empty background, and neither of them on the mp3 player or the keyboard,
+  // which have their own sounds).
+  // Browsers only allow sound after the visitor has clicked or pressed a key once,
+  // so hover ticks start after the first click.
+  (function () {
+    var AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    var ctx = new AudioCtx(); // it stays silent until the first click or key press
+    var clickable = 'a, button, input[type="range"], .knob, .viewer img, .lightbox';
+    // no click or hover sound inside the mp3 player or the little keyboard: they make their own sounds
+    var noClick = '.key, .synth, .mp3-col, .mp3-wrap, .jukebox';
+    var hovered = null;
+
+    // The click sound is loaded ready to play. When the page is opened straight from a
+    // file, browsers refuse to load it that way, so a plain <audio> copy is used instead.
+    var CLICK = 'images/click.mp3';
+    var CLICK_VOLUME = 0.3; // how loud the click is: 1 is full, lower is quieter
+    var clickBuffer = null;
+    var clickAudio = new Audio(CLICK);
+    clickAudio.preload = 'auto';
+    fetch(CLICK)
+      .then(function (r) { if (!r.ok) throw new Error('missing'); return r.arrayBuffer(); })
+      .then(function (data) {
+        return new Promise(function (ok, fail) { ctx.decodeAudioData(data, ok, fail); });
+      })
+      .then(function (buffer) { clickBuffer = buffer; })
+      .catch(function () { /* the <audio> copy is used */ });
+
+    function playClick() {
+      if (clickBuffer && ctx.state === 'running') {
+        var source = ctx.createBufferSource();
+        var level = ctx.createGain();
+        source.buffer = clickBuffer;
+        level.gain.value = CLICK_VOLUME;
+        source.connect(level);
+        level.connect(ctx.destination);
+        source.start();
+      } else {
+        var copy = clickAudio.cloneNode();
+        copy.volume = CLICK_VOLUME;
+        var started = copy.play();
+        if (started && started.catch) started.catch(function () { /* the browser said no */ });
+      }
+    }
+
+    function ready() {
+      if (ctx.state === 'suspended') ctx.resume();
+    }
+
+    // One short note: starts at `from` Hz, glides to `to` Hz, fades out quickly.
+    function blip(from, to, seconds, volume, type) {
+      if (!ctx || ctx.state !== 'running') return;
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      var t = ctx.currentTime;
+      osc.type = type;
+      osc.frequency.setValueAtTime(from, t);
+      osc.frequency.exponentialRampToValueAtTime(to, t + seconds);
+      gain.gain.setValueAtTime(volume, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + seconds);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + seconds);
+    }
+
+    document.addEventListener('pointerover', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      var el = e.target.closest ? e.target.closest(clickable) : null;
+      if (el && el.closest(noClick)) el = null; // no tick inside the mp3 player or the keyboard
+      if (el && el !== hovered) blip(1100, 1500, 0.07, 0.035, 'sine');
+      hovered = el;
+    });
+
+    document.addEventListener('pointerdown', function (e) {
+      ready(); // the very first click only unlocks the sound
+      // only things you can click make the sound: not the empty background, and not anything
+      // inside the mp3 player or the keyboard
+      if (e.target.closest && e.target.closest(clickable) && !e.target.closest(noClick)) playClick();
+    });
+    document.addEventListener('keydown', ready);
+  })();
+
+  // The bottom bar shows one page at a time, so nothing needs scrolling.
+  var views = document.querySelectorAll('.view');
+  var links = document.querySelectorAll('.menu a');
+  function show(id) {
+    if (!document.getElementById(id)) id = 'home';
+    views.forEach(function (v) { v.classList.toggle('active', v.id === id); });
+    links.forEach(function (a) { a.classList.toggle('current', a.getAttribute('href') === '#' + id); });
+    // Music opens Spotify and Socials opens Instagram (the first button), unless a player is already open.
+    var view = document.getElementById(id);
+    var firstTab = view.querySelector('.tabs button');
+    if (firstTab && !view.querySelector('.panel:not([hidden])')) firstTab.click();
+  }
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var id = a.getAttribute('href').slice(1);
+      show(id);
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+  show(location.hash.slice(1) || 'home');
+
+  // Click a gallery photo to show it large; click anywhere (or press Escape) to close.
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImage = lightbox.querySelector('img');
+  var viewerImage = document.getElementById('viewer-img');
+  var thumbButtons = document.querySelectorAll('#thumbs button');
+  thumbButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      viewerImage.src = button.dataset.photo;
+      thumbButtons.forEach(function (b) { b.classList.toggle('current', b === button); });
+      showCredit(button);
+    });
+  });
+
+  // The credit under the big photo (and, as plain text, in the full-screen view).
+  var creditLine = document.getElementById('photo-credit');
+  var lightboxCredit = document.getElementById('lightbox-credit');
+  function showCredit(button) {
+    var text = (button.dataset.credit || '').trim();
+    var link = (button.dataset.creditLink || '').trim();
+    creditLine.textContent = '';
+    if (text && link) {
+      var a = document.createElement('a');
+      a.href = link;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = text;
+      creditLine.appendChild(a);
+    } else {
+      creditLine.textContent = text;
+    }
+    lightboxCredit.textContent = text;
+    creditLine.hidden = !text;
+    lightboxCredit.hidden = !text;
+  }
+  showCredit(document.querySelector('#thumbs button.current') || thumbButtons[0]);
+  viewerImage.addEventListener('click', function () {
+    lightboxImage.src = viewerImage.src;
+    lightboxImage.alt = viewerImage.alt;
+    lightbox.hidden = false;
+  });
+  lightbox.addEventListener('click', function () { lightbox.hidden = true; });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') lightbox.hidden = true;
+  });
+
+  // Each button opens its player below it; clicking it again closes it.
+  document.querySelectorAll('.tabs').forEach(function (tabs) {
+    var section = tabs.parentElement;
+    var buttons = tabs.querySelectorAll('button');
+    var panels = section.querySelectorAll('.panel');
+    buttons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        var target = document.getElementById(button.dataset.target);
+        var wasOpen = !target.hidden;
+        panels.forEach(function (p) { p.hidden = true; });
+        buttons.forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
+        if (!wasOpen) {
+          target.hidden = false;
+          button.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  });
+</script>
+
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script>
+  // Music player on the right, driving a hidden SoundCloud player.
+  // It shows the first 5 songs SoundCloud lists for her profile.
+  (function () {
+    var widget = SC.Widget(document.getElementById('sc-hidden'));
+    var now = document.getElementById('jb-now');
+    var seek = document.getElementById('jb-seek');
+    var cur = document.getElementById('jb-cur');
+    var dur = document.getElementById('jb-dur');
+    var playButton = document.getElementById('jb-play');
+    var list = document.getElementById('jb-tracks');
+    var tracks = [];
+    var index = 0;
+    var position = 0;
+    var playing = false;
+    var dragging = false;
+    var userPaused = false;
+
+    // A title written in ALL CAPS on SoundCloud is shown as "Sentence case" instead.
+    function pretty(title) {
+      if (title !== title.toUpperCase() || title === title.toLowerCase()) return title;
+      var lower = title.toLowerCase();
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    }
+
+    function time(ms) {
+      var s = Math.floor(ms / 1000);
+      return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60);
+    }
+
+    function setCurrent(i) {
+      index = i;
+      now.textContent = pretty(tracks[i].title);
+      dur.textContent = time(tracks[i].duration || 0);
+      list.querySelectorAll('button').forEach(function (b, n) {
+        b.classList.toggle('current', n === i);
+      });
+    }
+
+    function go(i) {
+      i = (i + tracks.length) % tracks.length;
+      userPaused = false;
+      widget.skip(i);
+      widget.play();
+      setCurrent(i);
+    }
+
+    widget.bind(SC.Widget.Events.READY, function () {
+      widget.getSounds(function (sounds) {
+        tracks = sounds.slice(0, 5);
+        if (!tracks.length) {
+          now.textContent = 'songs not available';
+          return;
+        }
+        tracks.forEach(function (track, i) {
+          var item = document.createElement('li');
+          var button = document.createElement('button');
+          button.type = 'button';
+          button.innerHTML = '<span class="num">' + (i + 1) + '.</span>';
+          button.appendChild(document.createTextNode(pretty(track.title)));
+          button.addEventListener('click', function () { go(i); });
+          item.appendChild(button);
+          list.appendChild(item);
+        });
+        setCurrent(0);
+      });
+    });
+
+    widget.bind(SC.Widget.Events.PLAY, function () {
+      playing = true;
+      playButton.innerHTML = '&#10074;&#10074;';
+      playButton.setAttribute('aria-label', 'Pause');
+      document.documentElement.classList.add('music-playing'); // read by extras.js and the symbols
+      document.dispatchEvent(new Event('music-play'));
+      widget.getCurrentSoundIndex(function (i) {
+        if (i >= tracks.length) { widget.skip(0); return; } // stay within the 5 songs
+        setCurrent(i);
+      });
+    });
+    widget.bind(SC.Widget.Events.PAUSE, function () {
+      playing = false;
+      playButton.innerHTML = '&#9654;';
+      playButton.setAttribute('aria-label', 'Play');
+      document.documentElement.classList.remove('music-playing');
+      document.dispatchEvent(new Event('music-pause'));
+    });
+    widget.bind(SC.Widget.Events.PLAY_PROGRESS, function (e) {
+      position = e.currentPosition;
+      cur.textContent = time(position);
+      if (!dragging) seek.value = e.relativePosition * 1000;
+    });
+
+    playButton.addEventListener('click', function () {
+      if (!tracks.length) return;
+      userPaused = playing;
+      widget.toggle();
+    });
+    document.getElementById('jb-prev').addEventListener('click', function () {
+      if (!tracks.length) return;
+      if (position > 3000) widget.seekTo(0); else go(index - 1);
+    });
+    document.getElementById('jb-next').addEventListener('click', function () {
+      if (tracks.length) go(index + 1);
+    });
+    seek.addEventListener('input', function () {
+      dragging = true;
+      if (tracks.length) widget.seekTo(seek.value / 1000 * (tracks[index].duration || 0));
+    });
+    seek.addEventListener('change', function () { dragging = false; });
+
+  })();
+</script>
+
+<!-- Optional effects (also delete the extras.css line at the top to remove them) -->
+<script src="extras.js"></script>
+
+<!-- The mp3 player's screen, song list button and volume -->
+<script src="mp3.js"></script>
+
+<!-- The little keyboard -->
+<script src="demo.js"></script>
+<script src="synth.js"></script>
+
+<!-- The red arrow pointing at the play button -->
+<script src="arrow.js"></script>
+
+<!-- The pictures on the Contact page can be dragged -->
+<script src="scatter.js"></script>
+
+<!-- Click the title banner to pause or play its animation -->
+<script src="banner.js"></script>
+
+<!-- The VIP page: the password box -->
+<script src="vip.js"></script>
+
+</body>
+</html>
